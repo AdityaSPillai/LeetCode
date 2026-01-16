@@ -34,3 +34,25 @@ class Solution:
         else:
             mid=(len2-1)//2
             return float(nums2[mid]) if want==1 else (nums2[mid]+nums2[mid+1])/2
+
+
+from collections import deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        res=[]
+        l,r=0,0
+        q=deque()
+
+        while r<len(nums):
+            while q and nums[q[-1]]<nums[r]:
+                q.pop()
+            q.append(r)
+
+            if l>q[0]:
+                q.popleft()
+            
+            if (r+1)>=k:
+                res.append(nums[q[0]])
+                l+=1
+            r+=1
+        return res
