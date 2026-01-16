@@ -36,23 +36,32 @@ class Solution:
             return float(nums2[mid]) if want==1 else (nums2[mid]+nums2[mid+1])/2
 
 
-from collections import deque
 class Solution:
-    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        res=[]
-        l,r=0,0
-        q=deque()
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        A,B=nums1,nums2
+        lena,lenb=len(A),len(B)
+        total=lena+lenb
+        half=total//2
 
-        while r<len(nums):
-            while q and nums[q[-1]]<nums[r]:
-                q.pop()
-            q.append(r)
+        if lena>lenb:
+            A,B=B,A
+            lena,lenb=lenb,lena
+        
+        l,r=0,lena-1
+        while True:
+            mid=l+((r-l)//2)
+            mid2=half-mid-2
 
-            if l>q[0]:
-                q.popleft()
-            
-            if (r+1)>=k:
-                res.append(nums[q[0]])
-                l+=1
-            r+=1
-        return res
+            al=A[mid] if mid>=0 else float("-infinity")
+            ar=A[mid+1] if mid+1<lena else float("infinity")
+            bl=B[mid2] if mid2>=0 else float("-infinity")
+            br=B[mid2+1] if mid2+1<lenb else float("infinity")
+
+            if al>br:
+                r=mid-1
+            elif ar<bl:
+                l=mid+1
+            else:
+                if total%2==0:
+                    return (min(ar,br)+max(al,bl))/2
+                return float(min(ar,br))
