@@ -21,3 +21,12 @@ class Solution:
             if no==0 and j>=len(needle)-1:
                 return i
         return -1
+
+#Better Solution
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        n,m=len(haystack),len(needle)
+        for i in range(n-m+1):
+            if haystack[i:i+m]==needle:
+                return i
+        return -1
