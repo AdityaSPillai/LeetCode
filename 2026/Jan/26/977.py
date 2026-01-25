@@ -18,3 +18,18 @@ class Solution:
             n=stack.pop()
             res.append(n*n)
         return res
+
+#Approach 2
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
+        l,r=0,len(nums)-1
+        res=deque()
+        while l<=r:
+            lv,rv=nums[l],nums[r]
+            if lv*lv>rv*rv:
+                res.appendleft(lv*lv)
+                l+=1
+            else:
+                res.appendleft(rv*rv)
+                r-=1
+        return list(res)
